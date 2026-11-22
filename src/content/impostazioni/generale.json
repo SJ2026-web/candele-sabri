@@ -1,0 +1,26 @@
+{
+  "nomeMarchio": "Intrecci d’Essenze",
+  "sottotitolo": "Creazioni in cera di soia",
+  "regione": "Canton Ticino, Svizzera",
+  "instagram": "_medleyofscents_",
+  "email": "",
+  "venditore": {
+    "nomi": "",
+    "indirizzo": "",
+    "localita": "",
+    "email": ""
+  },
+  "creatrici": {
+    "sabrina": {
+      "nome": "Sabrina",
+      "whatsapp": ""
+    },
+    "daniela": {
+      "nome": "Daniela",
+      "whatsapp": ""
+    }
+  },
+  "messaggioOrdine": "Buongiorno, vorrei ordinare il prodotto {nome}, codice {codice}{prezzo}. È ancora disponibile?",
+  "messaggioNonDisponibile": "Buongiorno, ho visto il prodotto {nome}, codice {codice}. Sarà di nuovo disponibile?",
+  "messaggioContatto": "Buongiorno, vorrei avere informazioni sulle creazioni di Intrecci d’Essenze."
+}

@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from './PageHead.astro';
+import Breadcrumbs from './Breadcrumbs.astro';
+interface Props { title: string; description: string; updated?: string }
+const { title, description, updated } = Astro.props;
+const data = updated ? new Date(updated).toLocaleDateString('it-CH', { day: 'numeric', month: 'long', year: 'numeric' }) : '';
+---
+<Base title={`${title} – Intrecci d’Essenze`} description={description}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: title }]} />
+  <PageHead title={title} />
+  <article class="narrow prose" style="padding-bottom: 5rem">
+    <slot />
+    {data && <p style="margin-top:2.5rem;font-size:.85rem;color:#8d7b83">Ultimo aggiornamento: {data}</p>}
+  </article>
+</Base>

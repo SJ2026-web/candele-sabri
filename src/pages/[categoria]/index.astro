@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import CatNav from '../../components/CatNav.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { categorie, prodottiDi, type Categoria } from '../../lib/site';
+
+export function getStaticPaths() {
+  return categorie.map((c) => ({ params: { categoria: c.slug }, props: { c } }));
+}
+const { c } = Astro.props as { c: Categoria };
+const items = prodottiDi(c.id);
+const desc = `${c.titolo} in cera di soia fatte a mano in Ticino da Intrecci d’Essenze. ${c.intro}`.slice(0, 158);
+---
+<Base title={`${c.titolo} in cera di soia – Intrecci d’Essenze`} description={desc}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Creazioni', href: '/creazioni/' }, { label: c.titolo }]} />
+  <PageHead eyebrow="Catalogo" title={c.titolo} intro={c.intro}>
+    <CatNav attiva={c.id} />
+  </PageHead>
+  <section class="wrap" style="padding-bottom: 5rem">
+    <ProductGrid items={items} />
+  </section>
+</Base>

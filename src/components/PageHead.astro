@@ -1,0 +1,19 @@
+---
+import Icon from './Icon.astro';
+interface Props { eyebrow?: string; title: string; intro?: string }
+const { eyebrow, title, intro } = Astro.props;
+---
+<section class="ph">
+  <div class="narrow">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1>{title}</h1>
+    <div class="ornament"><Icon name="ornament" /></div>
+    {intro && <p class="ph__intro">{intro}</p>}
+    <slot />
+  </div>
+</section>
+<style>
+  .ph { text-align: center; padding: clamp(2.6rem, 6vw, 4.2rem) 0 clamp(1.6rem, 4vw, 2.6rem); }
+  .ph h1 { margin-bottom: 0.2rem; }
+  .ph__intro { font-size: 1.08rem; max-width: 600px; margin: 0 auto; }
+</style>

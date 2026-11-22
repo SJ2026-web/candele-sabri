@@ -1,0 +1,56 @@
+---
+import Icon from './Icon.astro';
+import { categorie, settings, instagramUrl } from '../lib/site';
+const anno = new Date().getFullYear();
+---
+<footer class="ft">
+  <div class="wrap ft__grid">
+    <div class="ft__brand">
+      <img src="/images/logo/logo-320.webp" width="320" height="209" alt="Intrecci d’Essenze" loading="lazy" />
+      <p>{settings.sottotitolo}, fatte a mano.<br />{settings.regione}</p>
+    </div>
+    <div>
+      <p class="ft__title">Creazioni</p>
+      <ul>
+        <li><a href="/creazioni/">Tutte le creazioni</a></li>
+        {categorie.map((c) => <li><a href={`/${c.slug}/`}>{c.breve}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <p class="ft__title">Informazioni</p>
+      <ul>
+        <li><a href="/la-nostra-storia/">La nostra storia</a></li>
+        <li><a href="/contatti/">Contatti</a></li>
+        <li><a href="/spedizioni-e-condizioni/">Spedizioni e condizioni</a></li>
+        <li><a href="/privacy-e-note-legali/">Privacy e informazioni legali</a></li>
+      </ul>
+    </div>
+    {instagramUrl && (
+      <div>
+        <p class="ft__title">Seguici</p>
+        <a class="ft__ig" href={instagramUrl} target="_blank" rel="noopener"><Icon name="instagram" />@{settings.instagram}</a>
+      </div>
+    )}
+  </div>
+  <div class="wrap ft__bottom">© {anno} {settings.nomeMarchio}</div>
+</footer>
+
+<style>
+  .ft { background: var(--bianco); border-top: 1px solid var(--linea); padding: 3.5rem 0 1.5rem; font-size: 0.95rem; }
+  .ft__grid { display: grid; gap: 2rem; grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+  .ft__brand img { width: 150px; margin-bottom: 0.6rem; }
+  .ft__brand p { color: var(--testo); font-size: 0.9rem; }
+  .ft__title { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rosa); font-weight: 500; margin-bottom: 0.7rem; }
+  .ft ul { list-style: none; padding: 0; margin: 0; }
+  .ft li { margin-bottom: 0.35rem; }
+  .ft a { color: var(--testo); text-decoration: none; }
+  .ft a:hover { color: var(--malva); text-decoration: underline; }
+  .ft__ig { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .ft__ig :global(svg) { width: 20px; height: 20px; }
+  .ft__bottom { border-top: 1px solid var(--linea); margin-top: 2.5rem; padding-top: 1.2rem; font-size: 0.8rem; color: #9a8a90; text-align: center; letter-spacing: 0.04em; }
+  @media (max-width: 860px) {
+    .ft__grid { grid-template-columns: 1fr 1fr; }
+    .ft__brand { grid-column: 1 / -1; text-align: center; }
+    .ft__brand img { margin-inline: auto; }
+  }
+</style>

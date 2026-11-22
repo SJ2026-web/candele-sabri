@@ -1,0 +1,18 @@
+{
+  "nome": "Winter Wonderland",
+  "categoria": "candele",
+  "creatrice": "sabrina",
+  "codice": "S-CAN-001",
+  "profumazione": "Winter Wonderland",
+  "note": "Abete, pino, foglie verdi, legni e incenso.",
+  "peso": 120,
+  "prezzo": null,
+  "descrizione": "",
+  "foto": [],
+  "disponibile": true,
+  "nuovo": true,
+  "pubblicato": false,
+  "archiviato": false,
+  "avvertenze": "",
+  "ordine": 1
+}

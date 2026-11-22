@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import { categorie } from '../lib/site';
+const path = Astro.url.pathname;
+const voci = [
+  { href: '/creazioni/', label: 'Tutte le creazioni' },
+  ...categorie.map((c) => ({ href: `/${c.slug}/`, label: c.breve })),
+  { href: '/la-nostra-storia/', label: 'La nostra storia' },
+  { href: '/contatti/', label: 'Contatti' },
+];
+const attivo = (href: string) => path === href || (href !== '/' && path.startsWith(href));
+---
+<header class="hd">
+  <div class="hd__bar wrap">
+    <a href="/" class="hd__logo" aria-label="Intrecci d’Essenze – Home">
+      <img src="/images/logo/logo-320.webp" width="320" height="209" alt="Intrecci d’Essenze – Creazioni in cera di soia" />
+    </a>
+    <button class="hd__toggle" type="button" aria-expanded="false" aria-controls="menu">
+      <Icon name="menu" class="i-open" /><Icon name="close" class="i-close" />
+      <span class="sr-only">Menu</span>
+    </button>
+  </div>
+  <nav id="menu" class="hd__nav" aria-label="Navigazione principale">
+    <ul class="wrap">
+      {voci.map((v) => (
+        <li><a href={v.href} aria-current={attivo(v.href) ? 'page' : undefined}>{v.label}</a></li>
+      ))}
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .hd { background: rgba(250, 246, 240, 0.94); backdrop-filter: saturate(140%) blur(8px); -webkit-backdrop-filter: saturate(140%) blur(8px); border-bottom: 1px solid var(--linea); position: sticky; top: 0; z-index: 50; }
+  .hd__bar { display: flex; align-items: center; justify-content: center; padding-block: 0.55rem; position: relative; }
+  .hd__logo img { width: 128px; height: auto; }
+  .hd__toggle { position: absolute; right: 0; top: 50%; transform: translateY(-50%); background: none; border: 0; color: var(--inchiostro); padding: 0.6rem; cursor: pointer; display: none; }
+  .hd__toggle :global(svg) { width: 26px; height: 26px; display: block; }
+  .hd__toggle :global(.i-close) { display: none; }
+  .hd__nav ul { list-style: none; margin: 0 auto; padding: 0 0 0.7rem; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.2rem 1.6rem; }
+  .hd__nav a { font-size: 0.76rem; letter-spacing: 0.16em; text-transform: uppercase; text-decoration: none; color: var(--testo); padding: 0.35rem 0; display: inline-block; border-bottom: 1px solid transparent; transition: color 0.2s, border-color 0.2s; }
+  .hd__nav a:hover, .hd__nav a[aria-current='page'] { color: var(--malva); border-bottom-color: var(--rosa); }
+
+  @media (max-width: 900px) {
+    .hd__logo img { width: 104px; }
+    .hd__toggle { display: block; }
+    .hd__nav { display: none; border-top: 1px solid var(--linea); background: var(--avorio); }
+    .hd.is-open .hd__nav { display: block; }
+    .hd.is-open :global(.i-open) { display: none; }
+    .hd.is-open :global(.i-close) { display: block; }
+    .hd__nav ul { flex-direction: column; align-items: center; padding: 1rem 0 1.4rem; gap: 0.2rem; }
+    .hd__nav a { font-size: 0.85rem; padding: 0.6rem 0; }
+  }
+</style>
+
+<script>
+  const hd = document.querySelector('.hd');
+  const btn = document.querySelector('.hd__toggle');
+  btn?.addEventListener('click', () => {
+    const open = hd?.classList.toggle('is-open');
+    btn.setAttribute('aria-expanded', String(!!open));
+  });
+</script>

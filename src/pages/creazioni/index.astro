@@ -1,0 +1,17 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import ProductGrid from '../../components/ProductGrid.astro';
+import CatNav from '../../components/CatNav.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import { prodotti } from '../../lib/site';
+---
+<Base title="Tutte le creazioni – Intrecci d’Essenze" description="Il catalogo completo di Intrecci d’Essenze: candele, tart per armadi, cere da sciogliere e confezioni regalo in cera di soia, fatte a mano in Ticino.">
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: 'Tutte le creazioni' }]} />
+  <PageHead eyebrow="Catalogo" title="Tutte le creazioni" intro="Ogni creazione è fatta a mano in cera di soia. Scegli la tua e ordinala direttamente su WhatsApp.">
+    <CatNav />
+  </PageHead>
+  <section class="wrap" style="padding-bottom: 5rem">
+    <ProductGrid items={prodotti} vuoto="Il catalogo è in preparazione: le prime creazioni arriveranno a breve." />
+  </section>
+</Base>

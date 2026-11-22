@@ -1,0 +1,22 @@
+{
+  "candele": {
+    "titolo": "Candele",
+    "intro": "Candele in cera di soia, create e decorate a mano.",
+    "immagine": ""
+  },
+  "tart": {
+    "titolo": "Tart profumate per armadi",
+    "intro": "Piccole creazioni profumate da riporre negli armadi e nei cassetti.",
+    "immagine": ""
+  },
+  "cere": {
+    "titolo": "Cere da sciogliere",
+    "intro": "Wax melts in cera di soia da sciogliere nell’apposito bruciatore per profumare l’ambiente.",
+    "immagine": ""
+  },
+  "regalo": {
+    "titolo": "Confezioni regalo",
+    "intro": "Confezioni pensate per regalare, che possono comprendere diffusori, cere profumate e altri accessori.",
+    "immagine": ""
+  }
+}

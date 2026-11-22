@@ -1,0 +1,12 @@
+---
+import Icon from './Icon.astro';
+import { type CreatriceId, linkWhatsApp } from '../lib/site';
+interface Props { creatrice: CreatriceId; testo: string; label?: string; ghost?: boolean }
+const { creatrice, testo, label = 'Ordina su WhatsApp', ghost = false } = Astro.props;
+const href = linkWhatsApp(creatrice, testo);
+---
+{href ? (
+  <a class:list={['btn', ghost ? 'btn--ghost' : 'btn--wa']} href={href} target="_blank" rel="noopener"><Icon name="whatsapp" />{label}</a>
+) : (
+  <span class="btn" aria-disabled="true" title="Numero WhatsApp non ancora inserito"><Icon name="whatsapp" />{label}</span>
+)}

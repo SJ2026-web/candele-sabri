@@ -1,0 +1,15 @@
+---
+import { categorie } from '../lib/site';
+interface Props { attiva?: string }
+const { attiva } = Astro.props;
+---
+<nav class="chips" aria-label="Categorie">
+  <a href="/creazioni/" aria-current={!attiva ? 'page' : undefined}>Tutte</a>
+  {categorie.map((c) => <a href={`/${c.slug}/`} aria-current={attiva === c.id ? 'page' : undefined}>{c.breve}</a>)}
+</nav>
+<style>
+  .chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-top: 1.6rem; }
+  .chips a { text-decoration: none; font-size: 0.78rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--testo); border: 1px solid var(--cipria); background: var(--bianco); padding: 0.5rem 1rem; border-radius: 99px; transition: all 0.2s; }
+  .chips a:hover { border-color: var(--rosa); color: var(--malva); }
+  .chips a[aria-current='page'] { background: var(--malva); border-color: var(--malva); color: #fff; }
+</style>

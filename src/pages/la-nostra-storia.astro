@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import s from '../content/pagine/storia.json';
+const paragrafi = s.testo.split(/\n{2,}/).map((t) => t.trim()).filter(Boolean);
+---
+<Base title={s.seoTitle} description={s.seoDescription}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: s.titolo }]} />
+  <PageHead eyebrow="Intrecci d’Essenze" title={s.titolo} intro={s.sottotitolo} />
+  <article class="narrow story">
+    {s.immagine && <img class="story__img" src={s.immagine} alt="Sabrina e Daniela" width="1200" height="800" />}
+    {paragrafi.map((t, i) => <p class:list={['reveal', i === 0 && 'story__lead']}>{t}</p>)}
+    {s.firma && <p class="story__sign reveal">{s.firma}</p>}
+    <p class="story__cta"><a class="btn" href="/creazioni/">Scopri le nostre creazioni</a></p>
+  </article>
+</Base>
+<style>
+  .story { padding-bottom: 5rem; font-size: 1.1rem; }
+  .story__img { border-radius: var(--r); margin-bottom: 2.2rem; width: 100%; }
+  .story__lead { font-family: var(--serif); font-size: 1.7rem; color: var(--inchiostro); text-align: center; line-height: 1.35; margin-bottom: 1.6rem; }
+  .story__sign { font-family: var(--serif); font-style: italic; font-size: 1.6rem; color: var(--malva); text-align: right; margin-top: 2rem; }
+  .story__cta { text-align: center; margin-top: 2.5rem; }
+</style>

@@ -1,0 +1,5 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { Content, frontmatter } from '../content/legale/spedizioni.md';
+---
+<LegalPage title={frontmatter.title} description={frontmatter.seoDescription} updated={frontmatter.updated}><Content /></LegalPage>

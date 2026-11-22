@@ -1,0 +1,17 @@
+---
+import ProductCard from './ProductCard.astro';
+import Icon from './Icon.astro';
+import type { Prodotto } from '../lib/site';
+import { instagramUrl, settings } from '../lib/site';
+interface Props { items: Prodotto[]; vuoto?: string }
+const { items, vuoto = 'Le prime creazioni di questa sezione arriveranno a breve.' } = Astro.props;
+---
+{items.length ? (
+  <div class="grid">{items.map((p) => <ProductCard p={p} />)}</div>
+) : (
+  <div class="empty reveal">
+    <div class="ornament"><Icon name="ornament" /></div>
+    <p><strong>{vuoto}</strong></p>
+    {instagramUrl && <p>Nel frattempo seguici su <a href={instagramUrl} target="_blank" rel="noopener">Instagram @{settings.instagram}</a>.</p>}
+  </div>
+)}

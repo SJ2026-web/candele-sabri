@@ -1,0 +1,161 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Icon from '../../components/Icon.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import WhatsAppButton from '../../components/WhatsAppButton.astro';
+import { prodotti, categoriaById, formatPrezzo, nomeCreatrice, messaggioOrdine, numeroWhatsApp, urlProdotto, settings, type Prodotto } from '../../lib/site';
+
+export function getStaticPaths() {
+  return prodotti.map((p) => ({ params: { categoria: categoriaById(p.categoria)!.slug, slug: p.slug }, props: { p } }));
+}
+const { p } = Astro.props as { p: Prodotto };
+const cat = categoriaById(p.categoria)!;
+const correlati = prodotti.filter((x) => x.categoria === p.categoria && x.slug !== p.slug).slice(0, 4);
+const titolo = `${p.nome} – ${cat.singolare} in cera di soia | Intrecci d’Essenze`;
+const desc = [`${cat.singolare} ${p.nome}`, p.note && `Note olfattive: ${p.note.replace(/\.$/, '')}`, p.peso ? `${p.peso} g` : '', 'Fatta a mano in Ticino. Ordina su WhatsApp.']
+  .filter(Boolean).join('. ').replace(/\.\./g, '.').slice(0, 158);
+
+const ld: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: p.nome,
+  category: cat.titolo,
+  ...(p.codice ? { sku: p.codice } : {}),
+  brand: { '@type': 'Brand', name: settings.nomeMarchio },
+  ...(p.descrizione || p.note ? { description: p.descrizione || `Note olfattive: ${p.note}` } : {}),
+  ...(p.foto.length ? { image: p.foto.map((f) => new URL(f.immagine, Astro.site).href) } : {}),
+  ...(p.peso ? { weight: { '@type': 'QuantitativeValue', value: p.peso, unitCode: 'GRM' } } : {}),
+  ...(p.prezzo !== null ? {
+    offers: {
+      '@type': 'Offer', price: p.prezzo.toFixed(2), priceCurrency: 'CHF', url: new URL(urlProdotto(p), Astro.site).href,
+      availability: p.disponibile ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    },
+  } : {}),
+};
+const haWhatsApp = !!numeroWhatsApp(p.creatrice);
+---
+<Base title={titolo} description={desc} image={p.foto[0]?.immagine} jsonLd={ld} noindex={p.bozza}>
+  <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: cat.titolo, href: `/${cat.slug}/` }, { label: p.nome }]} />
+
+  <article class="pd narrow">
+    <div class="pd__gallery">
+      <div class="pd__main">
+        {p.foto.length ? (
+          <img id="pd-main" src={p.foto[0].immagine} alt={p.foto[0].alt || `${cat.singolare} ${p.nome}`} width="1200" height="1200" fetchpriority="high" />
+        ) : (
+          <div class="pd__ph"><Icon name={p.categoria} /><span>Fotografia in arrivo</span></div>
+        )}
+      </div>
+      {p.foto.length > 1 && (
+        <div class="pd__thumbs">
+          {p.foto.map((f, i) => (
+            <button type="button" class:list={['pd__thumb', i === 0 && 'is-on']} data-src={f.immagine} data-alt={f.alt || `${cat.singolare} ${p.nome}`} aria-label={`Foto ${i + 1}`}>
+              <img src={f.immagine} alt="" width="120" height="120" loading="lazy" />
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <div class="pd__info">
+      <p class="eyebrow">{cat.singolare}{p.bozza && <span class="pd__draft">Bozza – non pubblicato</span>}</p>
+      <h1>{p.nome}</h1>
+      <p class="pd__price">{formatPrezzo(p.prezzo)}</p>
+      <p class:list={['pd__av', !p.disponibile && 'is-off']}>{p.disponibile ? 'Disponibile' : 'Al momento non disponibile'}</p>
+
+      {p.descrizione && <p class="pd__desc">{p.descrizione}</p>}
+
+      <dl class="pd__specs">
+        {p.profumazione && <><dt>Profumazione</dt><dd>{p.profumazione}</dd></>}
+        {p.note && <><dt>Note olfattive</dt><dd>{p.note}</dd></>}
+        {p.peso && <><dt>Peso netto</dt><dd>{p.peso} g</dd></>}
+        <dt>Prezzo</dt><dd>{formatPrezzo(p.prezzo)}</dd>
+        {p.codice && <><dt>Codice</dt><dd>{p.codice}</dd></>}
+        <dt>Creatrice</dt><dd>{nomeCreatrice(p.creatrice)}</dd>
+        <dt>Disponibilità</dt><dd>{p.disponibile ? 'Disponibile' : 'Non disponibile'}</dd>
+      </dl>
+
+      <div class="pd__order">
+        <WhatsAppButton creatrice={p.creatrice} testo={messaggioOrdine(p)} label={p.disponibile ? 'Ordina su WhatsApp' : 'Chiedi su WhatsApp'} />
+        <p class="pd__hint">
+          {haWhatsApp
+            ? `Si apre la chat di ${nomeCreatrice(p.creatrice)} con il messaggio già pronto. Il pagamento si concorda dopo la conferma.`
+            : 'Gli ordini su WhatsApp saranno attivi a breve.'}
+        </p>
+      </div>
+
+      {p.avvertenze && (
+        <details class="pd__safety">
+          <summary>Avvertenze e indicazioni di sicurezza</summary>
+          <div set:html={p.avvertenze.split(/\n{2,}/).map((t) => `<p>${t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/\n/g, '<br>')}</p>`).join('')} />
+        </details>
+      )}
+
+      <p class="pd__links"><a href="/spedizioni-e-condizioni/">Spedizioni e condizioni</a></p>
+    </div>
+  </article>
+
+  {correlati.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head"><h2>Altre {cat.breve.toLowerCase()}</h2><div class="ornament"><Icon name="ornament" /></div></div>
+        <div class="grid">{correlati.map((x) => <ProductCard p={x} />)}</div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .pd { padding: 1.5rem 0 3rem; }
+  .pd__main { border-radius: var(--r); overflow: hidden; background: #f4ede6; aspect-ratio: 1; }
+  .pd__main img { width: 100%; height: 100%; object-fit: cover; }
+  .pd__ph { height: 100%; display: flex; flex-direction: column; gap: 0.8rem; align-items: center; justify-content: center; color: var(--rosa); font-size: 0.8rem; letter-spacing: 0.16em; text-transform: uppercase; }
+  .pd__ph :global(svg) { width: 110px; height: 110px; }
+  .pd__thumbs { display: flex; gap: 0.6rem; margin-top: 0.7rem; overflow-x: auto; }
+  .pd__thumb { padding: 0; border: 1px solid var(--linea); border-radius: var(--r-sm); overflow: hidden; width: 72px; height: 72px; flex: none; background: none; cursor: pointer; opacity: 0.65; transition: opacity 0.2s, border-color 0.2s; }
+  .pd__thumb.is-on, .pd__thumb:hover { opacity: 1; border-color: var(--rosa); }
+  .pd__thumb img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pd__info { text-align: center; padding-top: 2rem; }
+  .pd__info h1 { margin-bottom: 0.3rem; }
+  .pd__draft { margin-left: 0.6rem; background: #f3e3c9; color: #7a5a22; border-radius: 99px; padding: 0.1rem 0.6rem; letter-spacing: 0.1em; }
+  .pd__price { font-family: var(--serif); font-size: 1.7rem; color: var(--inchiostro); margin: 0; }
+  .pd__av { display: inline-flex; align-items: center; gap: 0.4rem; color: var(--salvia-scuro); font-size: 0.9rem; margin: 0.2rem 0 1.2rem; }
+  .pd__av::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--salvia); }
+  .pd__av.is-off { color: #9a8a90; }
+  .pd__av.is-off::before { background: #cfc4c7; }
+  .pd__desc { max-width: 560px; margin: 0 auto 1.4rem; }
+
+  .pd__specs { display: grid; grid-template-columns: max-content 1fr; text-align: left; max-width: 520px; margin: 0 auto 1.8rem; background: var(--bianco); border: 1px solid var(--linea); border-radius: var(--r); padding: 0.4rem 1.3rem; }
+  .pd__specs dt, .pd__specs dd { margin: 0; padding: 0.7rem 0; border-bottom: 1px solid var(--linea); }
+  .pd__specs dt { font-size: 0.74rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rosa); padding-right: 1.2rem; padding-top: 0.85rem; }
+  .pd__specs dd { color: var(--inchiostro); }
+  .pd__specs dt:nth-last-of-type(1), .pd__specs dd:last-of-type { border-bottom: 0; }
+
+  .pd__order :global(.btn) { width: min(100%, 380px); min-height: 54px; }
+  .pd__hint { font-size: 0.85rem; color: #8d7b83; max-width: 420px; margin: 0.8rem auto 0; }
+
+  .pd__safety { max-width: 520px; margin: 1.8rem auto 0; text-align: left; border: 1px solid var(--linea); border-radius: var(--r); background: var(--bianco); padding: 0.9rem 1.2rem; font-size: 0.92rem; }
+  .pd__safety summary { cursor: pointer; color: var(--inchiostro); font-weight: 500; }
+  .pd__safety div { margin-top: 0.8rem; }
+  .pd__links { margin-top: 1.6rem; font-size: 0.88rem; }
+
+  @media (max-width: 520px) {
+    .pd__specs { grid-template-columns: 1fr; padding: 0.4rem 1.1rem; }
+    .pd__specs dt { padding-bottom: 0; border-bottom: 0; padding-top: 0.8rem; }
+    .pd__specs dd { padding-top: 0.15rem; }
+  }
+</style>
+
+<script>
+  const main = document.getElementById('pd-main') as HTMLImageElement | null;
+  document.querySelectorAll<HTMLButtonElement>('.pd__thumb').forEach((b) => {
+    b.addEventListener('click', () => {
+      if (!main) return;
+      main.src = b.dataset.src || main.src;
+      main.alt = b.dataset.alt || main.alt;
+      document.querySelectorAll('.pd__thumb').forEach((x) => x.classList.toggle('is-on', x === b));
+    });
+  });
+</script>

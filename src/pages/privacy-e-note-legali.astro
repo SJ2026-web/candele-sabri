@@ -1,0 +1,16 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { Content, frontmatter } from '../content/legale/privacy.md';
+import { settings } from '../lib/site';
+const v = (settings as any).venditore || {};
+const righe = [v.nomi, v.indirizzo, v.localita, v.email && `Email: ${v.email}`].filter(Boolean);
+---
+<LegalPage title={frontmatter.title} description={frontmatter.seoDescription} updated={frontmatter.updated}>
+  {righe.length > 0 && (
+    <>
+      <h2>Responsabili del sito</h2>
+      <p>{righe.map((r, i) => <>{r}{i < righe.length - 1 && <br />}</>)}</p>
+    </>
+  )}
+  <Content />
+</LegalPage>

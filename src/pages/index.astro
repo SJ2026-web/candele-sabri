@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import CategoryCards from '../components/CategoryCards.astro';
+import ProductGrid from '../components/ProductGrid.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+import home from '../content/pagine/home.json';
+import { prodotti, settings, instagramUrl } from '../lib/site';
+
+const nuovi = (prodotti.filter((p) => p.nuovo).length ? prodotti.filter((p) => p.nuovo) : prodotti).slice(0, 8);
+const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.nomeMarchio, url: new URL('/', Astro.site).href, inLanguage: 'it-CH' };
+---
+<Base title={home.seoTitle} description={home.seoDescription} jsonLd={ld}>
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <h1 class="sr-only">Intrecci d’Essenze – Creazioni in cera di soia</h1>
+      <img class="hero__logo" src="/images/logo/logo-1200.webp" srcset="/images/logo/logo-640.webp 640w, /images/logo/logo-1200.webp 1200w" sizes="(max-width: 700px) 88vw, 560px" width="1200" height="785" alt="Logo Intrecci d’Essenze – Creazioni in cera di soia" fetchpriority="high" />
+      <p class="hero__phrase">{home.frase}</p>
+      <p class="hero__intro">{home.intro}</p>
+      <div class="hero__cta">
+        <a class="btn" href="/creazioni/">Scopri le creazioni</a>
+        <a class="btn btn--ghost" href="/la-nostra-storia/">La nostra storia</a>
+      </div>
+    </div>
+    {home.immagineCopertina && (
+      <div class="wrap"><img class="hero__cover" src={home.immagineCopertina} alt="Alcune creazioni di Intrecci d’Essenze" width="1600" height="900" /></div>
+    )}
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Catalogo</p>
+        <h2>{home.categorieTitolo}</h2>
+        <div class="ornament"><Icon name="ornament" /></div>
+      </div>
+      <CategoryCards />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Appena create</p>
+        <h2>{home.nuoviTitolo}</h2>
+        <div class="ornament"><Icon name="ornament" /></div>
+      </div>
+      <ProductGrid items={nuovi} vuoto="Le prime creazioni arriveranno a breve." />
+      {nuovi.length > 0 && <p class="more"><a class="btn btn--ghost" href="/creazioni/">Vedi tutte le creazioni</a></p>}
+    </div>
+  </section>
+
+  <section class="section section--white story">
+    <div class="narrow reveal">
+      <p class="eyebrow">La nostra storia</p>
+      <h2>{home.storiaTitolo}</h2>
+      <div class="ornament"><Icon name="ornament" /></div>
+      <p>{home.storiaTesto}</p>
+      <a class="btn btn--ghost" href="/la-nostra-storia/">Leggi la nostra storia</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap duo">
+      {instagramUrl && (
+        <div class="panel reveal">
+          <Icon name="instagram" class="panel__icon" />
+          <h2>{home.instagramTitolo}</h2>
+          <p>{home.instagramTesto}</p>
+          <a class="btn btn--ghost" href={instagramUrl} target="_blank" rel="noopener">@{settings.instagram}</a>
+        </div>
+      )}
+      <div class="panel reveal">
+        <Icon name="whatsapp" class="panel__icon" />
+        <h2>{home.contattiTitolo}</h2>
+        <p>{home.contattiTesto}</p>
+        <div class="panel__btns">
+          <WhatsAppButton creatrice="sabrina" testo={settings.messaggioContatto} label={`Scrivi a ${settings.creatrici.sabrina.nome}`} ghost />
+          <WhatsAppButton creatrice="daniela" testo={settings.messaggioContatto} label={`Scrivi a ${settings.creatrici.daniela.nome}`} ghost />
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: clamp(2rem, 6vw, 4.5rem) 0 clamp(3rem, 7vw, 5rem); text-align: center; background: radial-gradient(ellipse 70% 60% at 50% 35%, #fffdfc 0%, var(--avorio) 70%); }
+  .hero__logo { width: min(560px, 88vw); margin: 0 auto; animation: fade 1.2s ease both; }
+  .hero__phrase { font-family: var(--serif); font-style: italic; font-size: clamp(1.55rem, 3.6vw, 2.15rem); color: var(--inchiostro); margin: 1.2rem 0 0.4rem; animation: fade 1.2s 0.25s ease both; }
+  .hero__intro { max-width: 520px; margin: 0 auto 1.8rem; animation: fade 1.2s 0.4s ease both; }
+  .hero__cta { display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; animation: fade 1.2s 0.55s ease both; }
+  .hero__cover { margin-top: 3rem; border-radius: var(--r); width: 100%; aspect-ratio: 16 / 9; object-fit: cover; }
+  @keyframes fade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .hero * { animation: none !important; } }
+  .more { text-align: center; margin-top: 2.2rem; }
+  .story { text-align: center; }
+  .story p { font-size: 1.08rem; }
+  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1.5rem; }
+  .panel { background: var(--bianco); border: 1px solid var(--linea); border-radius: var(--r); padding: 2.2rem 1.8rem; text-align: center; }
+  .panel h2 { font-size: 1.9rem; }
+  .panel :global(.panel__icon) { width: 30px; height: 30px; color: var(--rosa); margin: 0 auto 0.8rem; display: block; }
+  .panel__btns { display: flex; flex-wrap: wrap; gap: 0.7rem; justify-content: center; }
+</style>
