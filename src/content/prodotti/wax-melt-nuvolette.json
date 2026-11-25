@@ -1,0 +1,23 @@
+{
+  "nome": "Wax melt nuvolette",
+  "categoria": "cere",
+  "creatrice": "sabrina",
+  "codice": "S-WAX-001",
+  "profumazione": "",
+  "note": "Testa: mela verde, prugna, ciliegia. Cuore: magnolia, gelsomino. Fondo: muschio, legni, vaniglia.",
+  "peso": null,
+  "prezzo": null,
+  "descrizione": "Una delicata fragranza fruttata e floreale, dove la freschezza della mela verde si fonde con la dolcezza di prugna e ciliegia, un cuore avvolgente di magnolia dalle sfumature agrumate e gelsomino, su un fondo caldo di muschio, legni e vaniglia.\n\n100% cera di soia. Ideale per bruciatori di essenze. Fragranza intensa e avvolgente. Fragranza vegan e cruelty free.",
+  "foto": [
+    {
+      "immagine": "/images/prodotti/wax-melt-nuvolette-1.webp",
+      "alt": "Wax melt in cera di soia a forma di nuvoletta, color fucsia, su un piatto di legno"
+    }
+  ],
+  "disponibile": true,
+  "nuovo": true,
+  "pubblicato": true,
+  "archiviato": false,
+  "avvertenze": "",
+  "ordine": 20
+}
