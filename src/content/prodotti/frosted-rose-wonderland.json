@@ -1,0 +1,23 @@
+{
+  "nome": "Frosted Rose Wonderland",
+  "categoria": "tart",
+  "creatrice": "sabrina",
+  "codice": "S-TAR-003",
+  "profumazione": "Frosted Rose Wonderland",
+  "note": "Testa: mela, pesca, frutti tropicali, agrumi. Cuore: fiori bianchi, rosa. Fondo: lampone glassato, vaniglia.",
+  "peso": null,
+  "prezzo": null,
+  "descrizione": "Note floreali calde di rosa e fiori bianchi con sfumature di mela e agrumi che donano un tocco fresco e fruttato.\n\n100% cera di soia. Ideale per armadi. Durata da 3 a 6 mesi.",
+  "foto": [
+    {
+      "immagine": "/images/prodotti/frosted-rose-wonderland-1.webp",
+      "alt": "Tart profumata rettangolare in cera di soia con fiori rosa e nastro rosa"
+    }
+  ],
+  "disponibile": true,
+  "nuovo": true,
+  "pubblicato": true,
+  "archiviato": false,
+  "avvertenze": "",
+  "ordine": 12
+}
