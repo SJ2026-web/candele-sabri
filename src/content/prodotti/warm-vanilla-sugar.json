@@ -1,0 +1,27 @@
+{
+  "nome": "Warm Vanilla Sugar",
+  "categoria": "cere",
+  "creatrice": "sabrina",
+  "codice": "S-WAX-003",
+  "profumazione": "Warm Vanilla Sugar",
+  "note": "Testa: orchidea bianca, zucchero scintillante. Cuore: gelsomino, fava tonka, cocco. Fondo: vaniglia, fave di cacao, legno di sandalo.",
+  "peso": null,
+  "prezzo": null,
+  "descrizione": "Una fragranza alla vaniglia inebriante e avvolgente, dove le delicate note di orchidea bianca e zucchero scintillante si fondono con il gelsomino, la fava tonka e il cocco, su un fondo goloso di vaniglia, fave di cacao e cremoso legno di sandalo.\n\n100% cera di soia. Ideale per bruciatori di essenze. Fragranza intensa e avvolgente. Profumazione dolce, calda e gourmand.\n\nIl bruciatore nella seconda foto è solo dimostrativo e non è incluso.",
+  "foto": [
+    {
+      "immagine": "/images/prodotti/warm-vanilla-sugar-1.webp",
+      "alt": "Wax melt in cera di soia a forma di farfalla decorata con fiori, color rosa"
+    },
+    {
+      "immagine": "/images/prodotti/warm-vanilla-sugar-2.webp",
+      "alt": "Wax melt a farfalla nel bruciatore di essenze (bruciatore non incluso)"
+    }
+  ],
+  "disponibile": true,
+  "nuovo": true,
+  "pubblicato": true,
+  "archiviato": false,
+  "avvertenze": "",
+  "ordine": 22
+}
