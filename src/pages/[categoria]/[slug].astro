@@ -64,7 +64,7 @@ const haWhatsApp = !!numeroWhatsApp(p.creatrice);
       <p class="pd__price">{formatPrezzo(p.prezzo)}</p>
       <p class:list={['pd__av', !p.disponibile && 'is-off']}>{p.disponibile ? 'Disponibile' : 'Al momento non disponibile'}</p>
 
-      {p.descrizione && <p class="pd__desc">{p.descrizione}</p>}
+      {p.descrizione && <div class="pd__desc">{p.descrizione.split(/\n{2,}/).map((t) => <p>{t}</p>)}</div>}
 
       <dl class="pd__specs">
         {p.profumazione && <><dt>Profumazione</dt><dd>{p.profumazione}</dd></>}
