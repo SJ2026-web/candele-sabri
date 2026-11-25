@@ -5,10 +5,15 @@
   "codice": "S-WAX-002",
   "profumazione": "Soft Amber & Cotton Blossom",
   "note": "Testa: cotone fresco, ozono. Cuore: fiori bianchi. Fondo: cashmere, ambra, muschio, patchouli, vaniglia.",
-  "peso": null,
+  "peso": 60,
   "prezzo": 6,
   "descrizione": "Una fragranza fresca e delicata, che si apre con note di cotone fresco e ozono, seguite da un cuore di fiori bianchi e un fondo caldo e avvolgente di cashmere, ambra, muschio e patchouli, arricchito dalla dolcezza della vaniglia.\n\n100% cera di soia. Ideale per bruciatori di essenze. Fragranza intensa e avvolgente.\n\nTecnologia brevettata Odouraze™, progettata per neutralizzare ed eliminare i cattivi odori anziché semplicemente coprirli. Fragranza vegan e cruelty free.",
-  "foto": [],
+  "foto": [
+    {
+      "immagine": "/images/prodotti/soft-amber-cotton-blossom-1.webp",
+      "alt": "Wax melt in cera di soia a forma di fiore, color fucsia con glitter, nella sua confezione trasparente"
+    }
+  ],
   "disponibile": true,
   "nuovo": true,
   "pubblicato": true,
