@@ -1,11 +1,11 @@
 ---
 import Icon from './Icon.astro';
-import { categorie } from '../lib/site';
+import { categorie, storiaVisibile } from '../lib/site';
 const path = Astro.url.pathname;
 const voci = [
   { href: '/creazioni/', label: 'Tutte le creazioni' },
   ...categorie.map((c) => ({ href: `/${c.slug}/`, label: c.breve })),
-  { href: '/la-nostra-storia/', label: 'La nostra storia' },
+  ...(storiaVisibile ? [{ href: '/la-nostra-storia/', label: 'La nostra storia' }] : []),
   { href: '/contatti/', label: 'Contatti' },
 ];
 const attivo = (href: string) => path === href || (href !== '/' && path.startsWith(href));

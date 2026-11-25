@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { categorie, settings, instagramUrl } from '../lib/site';
+import { categorie, settings, instagramUrl, storiaVisibile } from '../lib/site';
 const anno = new Date().getFullYear();
 ---
 <footer class="ft">
@@ -19,7 +19,7 @@ const anno = new Date().getFullYear();
     <div>
       <p class="ft__title">Informazioni</p>
       <ul>
-        <li><a href="/la-nostra-storia/">La nostra storia</a></li>
+        {storiaVisibile && <li><a href="/la-nostra-storia/">La nostra storia</a></li>}
         <li><a href="/contatti/">Contatti</a></li>
         <li><a href="/spedizioni-e-condizioni/">Spedizioni e condizioni</a></li>
         <li><a href="/privacy-e-note-legali/">Privacy e informazioni legali</a></li>

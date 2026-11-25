@@ -1,10 +1,10 @@
 import type { APIRoute } from 'astro';
-import { categorie, prodotti, urlProdotto } from '../lib/site';
+import { categorie, prodotti, urlProdotto, storiaVisibile } from '../lib/site';
 
 export const GET: APIRoute = ({ site }) => {
   const pagine = [
     '/', '/creazioni/', ...categorie.map((c) => `/${c.slug}/`),
-    '/la-nostra-storia/', '/contatti/', '/spedizioni-e-condizioni/', '/privacy-e-note-legali/',
+    ...(storiaVisibile ? ['/la-nostra-storia/'] : []), '/contatti/', '/spedizioni-e-condizioni/', '/privacy-e-note-legali/',
     ...prodotti.filter((p) => !p.bozza).map(urlProdotto),
   ];
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${pagine

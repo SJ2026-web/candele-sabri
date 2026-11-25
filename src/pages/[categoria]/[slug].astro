@@ -3,8 +3,8 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Icon from '../../components/Icon.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import WhatsAppButton from '../../components/WhatsAppButton.astro';
-import { prodotti, categoriaById, formatPrezzo, nomeCreatrice, messaggioOrdine, numeroWhatsApp, urlProdotto, settings, type Prodotto } from '../../lib/site';
+import OrderBox from '../../components/OrderBox.astro';
+import { prodotti, categoriaById, formatPrezzo, nomeCreatrice, urlProdotto, settings, type Prodotto } from '../../lib/site';
 
 export function getStaticPaths() {
   return prodotti.map((p) => ({ params: { categoria: categoriaById(p.categoria)!.slug, slug: p.slug }, props: { p } }));
@@ -33,7 +33,6 @@ const ld: Record<string, unknown> = {
     },
   } : {}),
 };
-const haWhatsApp = !!numeroWhatsApp(p.creatrice);
 ---
 <Base title={titolo} description={desc} image={p.foto[0]?.immagine} jsonLd={ld} noindex={p.bozza}>
   <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: cat.titolo, href: `/${cat.slug}/` }, { label: p.nome }]} />
@@ -76,14 +75,7 @@ const haWhatsApp = !!numeroWhatsApp(p.creatrice);
         <dt>Disponibilità</dt><dd>{p.disponibile ? 'Disponibile' : 'Non disponibile'}</dd>
       </dl>
 
-      <div class="pd__order">
-        <WhatsAppButton creatrice={p.creatrice} testo={messaggioOrdine(p)} label={p.disponibile ? 'Ordina su WhatsApp' : 'Chiedi su WhatsApp'} />
-        <p class="pd__hint">
-          {haWhatsApp
-            ? `Si apre la chat di ${nomeCreatrice(p.creatrice)} con il messaggio già pronto. Il pagamento si concorda dopo la conferma.`
-            : 'Gli ordini su WhatsApp saranno attivi a breve.'}
-        </p>
-      </div>
+      <OrderBox p={p} />
 
       {p.avvertenze && (
         <details class="pd__safety">
@@ -133,8 +125,6 @@ const haWhatsApp = !!numeroWhatsApp(p.creatrice);
   .pd__specs dd { color: var(--inchiostro); }
   .pd__specs dt:nth-last-of-type(1), .pd__specs dd:last-of-type { border-bottom: 0; }
 
-  .pd__order :global(.btn) { width: min(100%, 380px); min-height: 54px; }
-  .pd__hint { font-size: 0.85rem; color: #8d7b83; max-width: 420px; margin: 0.8rem auto 0; }
 
   .pd__safety { max-width: 520px; margin: 1.8rem auto 0; text-align: left; border: 1px solid var(--linea); border-radius: var(--r); background: var(--bianco); padding: 0.9rem 1.2rem; font-size: 0.92rem; }
   .pd__safety summary { cursor: pointer; color: var(--inchiostro); font-weight: 500; }

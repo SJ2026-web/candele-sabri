@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import s from '../content/pagine/storia.json';
+import { storiaVisibile } from '../lib/site';
+// Pagina temporaneamente nascosta: chi apre l'indirizzo torna alla home.
+if (!storiaVisibile) return Astro.redirect('/');
 const paragrafi = s.testo.split(/\n{2,}/).map((t) => t.trim()).filter(Boolean);
 ---
 <Base title={s.seoTitle} description={s.seoDescription}>

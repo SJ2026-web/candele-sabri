@@ -13,14 +13,18 @@
   "creatrici": {
     "sabrina": {
       "nome": "Sabrina",
-      "whatsapp": ""
+      "whatsapp": "+41 76 679 04 82",
+      "attiva": true
     },
     "daniela": {
       "nome": "Daniela",
-      "whatsapp": ""
+      "whatsapp": "",
+      "attiva": false
     }
   },
-  "messaggioOrdine": "Buongiorno, vorrei ordinare il prodotto {nome}, codice {codice}{prezzo}. È ancora disponibile?",
+  "messaggioOrdine": "Buongiorno, sono interessata/o a questo prodotto: {nome}, codice {codice}.\nQuantità: {quantita}\nPrezzo totale: {totale}\nÈ disponibile? Il pagamento lo concordiamo direttamente. Grazie!",
   "messaggioNonDisponibile": "Buongiorno, ho visto il prodotto {nome}, codice {codice}. Sarà di nuovo disponibile?",
-  "messaggioContatto": "Buongiorno, vorrei avere informazioni sulle creazioni di Intrecci d’Essenze."
+  "messaggioContatto": "Buongiorno, vorrei avere informazioni sulle creazioni di Intrecci d’Essenze.",
+  "notaPagamento": "Il pagamento non avviene sul sito: lo concordi direttamente con {creatrice} su WhatsApp.",
+  "storiaVisibile": false
 }

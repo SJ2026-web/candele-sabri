@@ -135,15 +135,17 @@ export const GET: APIRoute = () => {
               f('creatrici', {
                 label: 'Creatrici', widget: 'object',
                 fields: [
-                  f('sabrina', { label: 'Sabrina', widget: 'object', fields: [f('nome', S('Nome')), f('whatsapp', S('Numero WhatsApp', { required: false, hint: 'Con prefisso, es. +41 79 123 45 67. Vuoto = pulsante non attivo.' }))] }),
-                  f('daniela', { label: 'Daniela', widget: 'object', fields: [f('nome', S('Nome')), f('whatsapp', S('Numero WhatsApp', { required: false, hint: 'Con prefisso, es. +41 79 123 45 67. Vuoto = pulsante non attivo.' }))] }),
+                  f('sabrina', { label: 'Sabrina', widget: 'object', fields: [f('attiva', { label: 'Visibile sul sito (prodotti e contatti)', widget: 'boolean', default: true }), f('nome', S('Nome')), f('whatsapp', S('Numero WhatsApp', { required: false, hint: 'Con prefisso, es. +41 79 123 45 67. Vuoto = pulsante non attivo.' }))] }),
+                  f('daniela', { label: 'Daniela', widget: 'object', fields: [f('attiva', { label: 'Visibile sul sito (prodotti e contatti)', widget: 'boolean', default: true }), f('nome', S('Nome')), f('whatsapp', S('Numero WhatsApp', { required: false, hint: 'Con prefisso, es. +41 79 123 45 67. Vuoto = pulsante non attivo.' }))] }),
                 ],
               }),
               f('venditore', {
                 label: 'Dati legali (pagina Privacy)', widget: 'object', collapsed: true,
                 fields: [f('nomi', S('Nomi', { required: false })), f('indirizzo', S('Indirizzo', { required: false })), f('localita', S('CAP e località', { required: false })), f('email', S('Email', { required: false }))],
               }),
-              f('messaggioOrdine', TX('Messaggio WhatsApp – ordine', { hint: 'Usa {nome}, {codice} e {prezzo}' })),
+              f('messaggioOrdine', TX('Messaggio WhatsApp – ordine', { hint: 'Usa {nome}, {codice}, {quantita} e {totale}' })),
+              f('notaPagamento', S('Nota sotto il pulsante d’ordine', { hint: 'Usa {creatrice}' })),
+              f('storiaVisibile', { label: 'Mostra la pagina “La nostra storia”', widget: 'boolean', default: false }),
               f('messaggioNonDisponibile', TX('Messaggio WhatsApp – prodotto non disponibile', { hint: 'Usa {nome} e {codice}' })),
               f('messaggioContatto', TX('Messaggio WhatsApp – contatto generico')),
             ],

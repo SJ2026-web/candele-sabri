@@ -5,7 +5,7 @@ import CategoryCards from '../components/CategoryCards.astro';
 import ProductGrid from '../components/ProductGrid.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import home from '../content/pagine/home.json';
-import { prodotti, settings, instagramUrl } from '../lib/site';
+import { prodotti, settings, instagramUrl, storiaVisibile, creatriciAttive } from '../lib/site';
 
 const nuovi = (prodotti.filter((p) => p.nuovo).length ? prodotti.filter((p) => p.nuovo) : prodotti).slice(0, 8);
 const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: settings.nomeMarchio, url: new URL('/', Astro.site).href, inLanguage: 'it-CH' };
@@ -19,7 +19,7 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: setting
       <p class="hero__intro">{home.intro}</p>
       <div class="hero__cta">
         <a class="btn" href="/creazioni/">Scopri le creazioni</a>
-        <a class="btn btn--ghost" href="/la-nostra-storia/">La nostra storia</a>
+        {storiaVisibile && <a class="btn btn--ghost" href="/la-nostra-storia/">La nostra storia</a>}
       </div>
     </div>
     {home.immagineCopertina && (
@@ -50,6 +50,7 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: setting
     </div>
   </section>
 
+  {storiaVisibile && (
   <section class="section section--white story">
     <div class="narrow reveal">
       <p class="eyebrow">La nostra storia</p>
@@ -59,6 +60,7 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: setting
       <a class="btn btn--ghost" href="/la-nostra-storia/">Leggi la nostra storia</a>
     </div>
   </section>
+  )}
 
   <section class="section">
     <div class="wrap duo">
@@ -75,8 +77,9 @@ const ld = { '@context': 'https://schema.org', '@type': 'WebSite', name: setting
         <h2>{home.contattiTitolo}</h2>
         <p>{home.contattiTesto}</p>
         <div class="panel__btns">
-          <WhatsAppButton creatrice="sabrina" testo={settings.messaggioContatto} label={`Scrivi a ${settings.creatrici.sabrina.nome}`} ghost />
-          <WhatsAppButton creatrice="daniela" testo={settings.messaggioContatto} label={`Scrivi a ${settings.creatrici.daniela.nome}`} ghost />
+          {creatriciAttive.map((id) => (
+            <WhatsAppButton creatrice={id} testo={settings.messaggioContatto} label={`Scrivi a ${settings.creatrici[id].nome}`} ghost />
+          ))}
         </div>
       </div>
     </div>

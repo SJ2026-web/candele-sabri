@@ -85,9 +85,16 @@ const tutti: Prodotto[] = Object.entries(files).map(([path, mod]) => {
   };
 });
 
-/** Prodotti visibili sul sito: pubblicati e non archiviati (in anteprima anche le bozze). */
+/** Creatrice attiva sul sito: se spenta, i suoi prodotti e i suoi contatti non compaiono. */
+export const creatriceAttiva = (id: CreatriceId) => (settings.creatrici as any)[id]?.attiva !== false;
+export const creatriciAttive = (['sabrina', 'daniela'] as CreatriceId[]).filter(creatriceAttiva);
+
+/** La pagina “La nostra storia” è visibile? */
+export const storiaVisibile = (settings as any).storiaVisibile !== false;
+
+/** Prodotti visibili sul sito: pubblicati, non archiviati, di una creatrice attiva (in anteprima anche le bozze). */
 export const prodotti: Prodotto[] = tutti
-  .filter((p) => !p.archiviato && (p.pubblicato || ANTEPRIMA) && categoriaById(p.categoria))
+  .filter((p) => !p.archiviato && (p.pubblicato || ANTEPRIMA) && creatriceAttiva(p.creatrice) && categoriaById(p.categoria))
   .sort((a, b) => (a.ordine ?? 9999) - (b.ordine ?? 9999) || a.nome.localeCompare(b.nome, 'it'));
 
 export const prodottiDi = (cat: CategoriaId) => prodotti.filter((p) => p.categoria === cat);
@@ -114,12 +121,17 @@ export const linkWhatsApp = (id: CreatriceId, testo: string) => {
   return n ? `https://wa.me/${n}?text=${encodeURIComponent(testo)}` : '';
 };
 
-export const messaggioOrdine = (p: Prodotto) => {
+/** Prezzo totale per la quantità scelta (stessa logica usata nel browser). */
+export const formatTotale = (prezzo: number | null, quantita: number) =>
+  prezzo === null ? 'da comunicare' : quantita > 1 ? `${formatPrezzo(prezzo * quantita)} (${quantita} × ${formatPrezzo(prezzo)})` : formatPrezzo(prezzo);
+
+export const messaggioOrdine = (p: Prodotto, quantita = 1) => {
   const modello = p.disponibile ? settings.messaggioOrdine : settings.messaggioNonDisponibile;
   return modello
-    .replace('{nome}', p.nome)
-    .replace('{codice}', p.codice || '—')
-    .replace('{prezzo}', p.prezzo === null ? '' : `, al prezzo di ${formatPrezzo(p.prezzo)}`);
+    .replaceAll('{nome}', p.nome)
+    .replaceAll('{codice}', p.codice || '—')
+    .replaceAll('{quantita}', String(quantita))
+    .replaceAll('{totale}', formatTotale(p.prezzo, quantita));
 };
 
 export const instagramUrl = settings.instagram ? `https://www.instagram.com/${settings.instagram.replace(/^@/, '')}/` : '';

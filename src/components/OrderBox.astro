@@ -1,0 +1,93 @@
+---
+// Riquadro d'ordine: quantità, prezzo totale e pulsante WhatsApp verso la creatrice del prodotto.
+// Senza JavaScript il pulsante funziona comunque (quantità 1).
+import Icon from './Icon.astro';
+import { type Prodotto, settings, linkWhatsApp, numeroWhatsApp, messaggioOrdine, formatPrezzo, nomeCreatrice } from '../lib/site';
+interface Props { p: Prodotto }
+const { p } = Astro.props;
+const numero = numeroWhatsApp(p.creatrice);
+const href = linkWhatsApp(p.creatrice, messaggioOrdine(p, 1));
+const nota = ((settings as any).notaPagamento || '').replace('{creatrice}', nomeCreatrice(p.creatrice));
+---
+<div
+  class="ob"
+  data-numero={numero}
+  data-prezzo={p.prezzo ?? ''}
+  data-nome={p.nome}
+  data-codice={p.codice || '—'}
+  data-modello={settings.messaggioOrdine}
+>
+  {p.disponibile && (
+    <div class="ob__row">
+      <span class="ob__label" id="ob-q-label">Quantità</span>
+      <div class="ob__qty" role="group" aria-labelledby="ob-q-label">
+        <button type="button" class="ob__step" data-step="-1" aria-label="Diminuisci quantità">−</button>
+        <input class="ob__input" type="number" inputmode="numeric" min="1" max="99" value="1" aria-label="Quantità" />
+        <button type="button" class="ob__step" data-step="1" aria-label="Aumenta quantità">+</button>
+      </div>
+    </div>
+  )}
+  {p.disponibile && (
+    <div class="ob__row ob__row--total">
+      <span class="ob__label">{p.prezzo === null ? 'Prezzo' : 'Totale'}</span>
+      <span class="ob__total" aria-live="polite">{formatPrezzo(p.prezzo)}</span>
+    </div>
+  )}
+
+  {href ? (
+    <a class="btn btn--wa ob__btn" href={href} target="_blank" rel="noopener">
+      <Icon name="whatsapp" />{p.disponibile ? 'Ordina su WhatsApp' : 'Chiedi su WhatsApp'}
+    </a>
+  ) : (
+    <span class="btn ob__btn" aria-disabled="true"><Icon name="whatsapp" />Ordina su WhatsApp</span>
+  )}
+
+  <p class="ob__hint">
+    {href ? (nota || `Si apre la chat di ${nomeCreatrice(p.creatrice)} con il messaggio già pronto.`) : 'Gli ordini su WhatsApp saranno attivi a breve.'}
+  </p>
+</div>
+
+<style>
+  .ob { max-width: 420px; margin: 0 auto; background: var(--bianco); border: 1px solid var(--linea); border-radius: var(--r); padding: 1.1rem 1.2rem 1.2rem; }
+  .ob__row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.35rem 0; }
+  .ob__row--total { border-top: 1px solid var(--linea); margin-top: 0.5rem; padding-top: 0.8rem; margin-bottom: 0.9rem; }
+  .ob__label { font-size: 0.74rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--rosa); }
+  .ob__qty { display: inline-flex; align-items: center; border: 1px solid var(--cipria); border-radius: 99px; overflow: hidden; }
+  .ob__step { width: 44px; height: 44px; border: 0; background: transparent; color: var(--malva); font-size: 1.3rem; cursor: pointer; }
+  .ob__step:hover { background: #f6ecec; }
+  .ob__input { width: 3rem; height: 44px; border: 0; text-align: center; font: inherit; font-size: 1.05rem; color: var(--inchiostro); background: transparent; -moz-appearance: textfield; appearance: textfield; }
+  .ob__input::-webkit-outer-spin-button, .ob__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .ob__total { font-family: var(--serif); font-size: 1.5rem; color: var(--inchiostro); text-align: right; }
+  .ob__total :global(small) { display: block; font-family: var(--sans); font-size: 0.78rem; color: #8d7b83; }
+  .ob__btn { width: 100%; min-height: 54px; }
+  .ob__hint { font-size: 0.85rem; color: #8d7b83; margin: 0.8rem 0 0; text-align: center; }
+</style>
+
+<script>
+  const fmt = (v: number) => 'CHF ' + v.toLocaleString('de-CH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  document.querySelectorAll<HTMLElement>('.ob').forEach((box) => {
+    const input = box.querySelector<HTMLInputElement>('.ob__input');
+    const total = box.querySelector<HTMLElement>('.ob__total');
+    const btn = box.querySelector<HTMLAnchorElement>('a.ob__btn');
+    if (!input) return;
+    const { numero = '', prezzo = '', nome = '', codice = '', modello = '' } = box.dataset;
+    const p = prezzo === '' ? null : Number(prezzo);
+    const update = () => {
+      let q = Math.round(Number(input.value) || 1);
+      q = Math.min(99, Math.max(1, q));
+      input.value = String(q);
+      const tot = p === null ? 'da comunicare' : q > 1 ? `${fmt(p * q)} (${q} × ${fmt(p)})` : fmt(p);
+      if (total) total.innerHTML = p === null ? 'Su richiesta' : q > 1 ? `${fmt(p * q)}<small>${q} × ${fmt(p)}</small>` : fmt(p);
+      if (btn && numero) {
+        const msg = modello.split('{nome}').join(nome).split('{codice}').join(codice).split('{quantita}').join(String(q)).split('{totale}').join(tot);
+        btn.href = `https://wa.me/${numero}?text=${encodeURIComponent(msg)}`;
+      }
+    };
+    box.querySelectorAll<HTMLButtonElement>('.ob__step').forEach((b) =>
+      b.addEventListener('click', () => { input.value = String((Number(input.value) || 1) + Number(b.dataset.step)); update(); }),
+    );
+    input.addEventListener('input', () => { if (input.value !== '') update(); });
+    input.addEventListener('change', update);
+    update();
+  });
+</script>

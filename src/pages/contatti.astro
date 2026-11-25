@@ -5,8 +5,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import c from '../content/pagine/contatti.json';
-import { settings, instagramUrl, type CreatriceId } from '../lib/site';
-const creatrici: CreatriceId[] = ['sabrina', 'daniela'];
+import { settings, instagramUrl, creatriciAttive as creatrici } from '../lib/site';
 ---
 <Base title={c.seoTitle} description={c.seoDescription}>
   <Breadcrumbs items={[{ label: 'Home', href: '/' }, { label: c.titolo }]} />
