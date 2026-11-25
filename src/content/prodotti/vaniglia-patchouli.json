@@ -1,0 +1,23 @@
+{
+  "nome": "Vaniglia & Patchouli",
+  "categoria": "candele",
+  "creatrice": "sabrina",
+  "codice": "S-CAN-002",
+  "profumazione": "Vaniglia & Patchouli",
+  "note": "Testa: bergamotto, legno di cedro. Cuore: biancospino, patchouli. Fondo: legno di guaiaco, vaniglia, muschio bianco.",
+  "peso": 90,
+  "prezzo": 12,
+  "descrizione": "Le note dolci della vaniglia si incontrano con gli aromi dei paesi lontani. La fragranza ha un profumo intenso, persistente e affascinante.\n\nFragranza cruelty free, non OGM, priva di parabeni, adatta per uso vegano.",
+  "foto": [
+    {
+      "immagine": "/images/prodotti/vaniglia-patchouli-1.webp",
+      "alt": "Candela in cera di soia in vasetto bianco con fiori rosa e perline decorative"
+    }
+  ],
+  "disponibile": true,
+  "nuovo": true,
+  "pubblicato": true,
+  "archiviato": false,
+  "avvertenze": "",
+  "ordine": 2
+}
