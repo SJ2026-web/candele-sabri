@@ -22,7 +22,7 @@
       "attiva": false
     }
   },
-  "messaggioOrdine": "Buongiorno, sono interessata/o a questo prodotto: {nome}, codice {codice}.\nQuantità: {quantita}\nPrezzo totale: {totale}\nÈ disponibile? Il pagamento lo concordiamo direttamente. Grazie!",
+  "messaggioOrdine": "Buongiorno, sono interessata/o a questo prodotto: {nome}, codice {codice}.\nQuantità: {quantita}\nPrezzo totale: {totale}\nÈ disponibile? Grazie!",
   "messaggioNonDisponibile": "Buongiorno, ho visto il prodotto {nome}, codice {codice}. Sarà di nuovo disponibile?",
   "messaggioContatto": "Buongiorno, vorrei avere informazioni sulle creazioni di Intrecci d’Essenze.",
   "notaPagamento": "Il pagamento non avviene sul sito: lo concordi direttamente con {creatrice} su WhatsApp.",
